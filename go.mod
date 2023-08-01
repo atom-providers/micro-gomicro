@@ -3,7 +3,7 @@ module github.com/atom-providers/micro-gomicro
 go 1.18
 
 require (
-	github.com/rogeecn/atom v1.0.4
+	github.com/rogeecn/atom v1.0.6
 	go-micro.dev/v4 v4.10.2
 )
 
