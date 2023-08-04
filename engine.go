@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/atom-providers/log"
+	"github.com/go-micro/plugins/v4/logger/zap"
 	"github.com/go-micro/plugins/v4/server/grpc"
 	"github.com/rogeecn/atom/container"
 	"github.com/rogeecn/atom/contracts"
@@ -29,15 +31,21 @@ func Provide(opts ...opt.Option) error {
 		return err
 	}
 
-	return container.Container.Provide(func(ctx context.Context, opts MicroOptions) (contracts.MicroService, error) {
-		opts.Options = append(
-			opts.Options,
+	return container.Container.Provide(func(ctx context.Context, log *log.Logger, opts MicroOptions) (contracts.MicroService, error) {
+		logger, _ := zap.NewLogger(
+			zap.WithLogger(log.RawLogger),
+		)
+
+		defaultOptions := []micro.Option{
 			micro.Context(ctx),
+			micro.Logger(logger),
 			micro.Server(grpc.NewServer(
 				server.Context(ctx),
 				server.Address(fmt.Sprintf(":%d", config.Port)),
 			)),
-		)
+		}
+
+		opts.Options = append(defaultOptions, opts.Options...)
 		service := &Service{
 			conf:   &config,
 			ctx:    ctx,
