@@ -1,9 +1,16 @@
 package microGoMicro
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/go-micro/plugins/v4/server/grpc"
 	"github.com/rogeecn/atom/container"
+	"github.com/rogeecn/atom/contracts"
 	"github.com/rogeecn/atom/utils/opt"
+	"github.com/samber/lo"
 	"go-micro.dev/v4"
+	"go-micro.dev/v4/server"
 )
 
 func DefaultProvider() container.ProviderContainer {
@@ -22,10 +29,19 @@ func Provide(opts ...opt.Option) error {
 		return err
 	}
 
-	return container.Container.Provide(func() (contracts.Service, error) {
+	return container.Container.Provide(func(ctx context.Context, opts MicroOptions) (contracts.MicroService, error) {
+		opts.Options = append(
+			opts.Options,
+			micro.Context(ctx),
+			micro.Server(grpc.NewServer(
+				server.Context(ctx),
+				server.Address(fmt.Sprintf(":%d", config.Port)),
+			)),
+		)
 		service := &Service{
 			conf:   &config,
-			Engine: micro.NewService(),
+			ctx:    ctx,
+			Engine: micro.NewService(opts.Options...),
 		}
 		container.AddCloseAble(service.Close)
 		return service, nil
@@ -33,24 +49,23 @@ func Provide(opts ...opt.Option) error {
 }
 
 type Service struct {
+	ctx    context.Context
 	conf   *Config
 	Engine micro.Service
 }
 
 func (s *Service) Serve() error {
-	return s.Engine.Run()
+	if err := s.Engine.Server().Start(); err != nil {
+		return err
+	}
+	<-s.ctx.Done()
+	return nil
 }
 
 func (s *Service) Close() {
-	s.Engine.Server().Stop()
+	lo.Must0(s.Engine.Server().Stop())
 }
 
 func (s *Service) GetEngine() any {
 	return s.Engine
-}
-
-func (s *Service) Init(f func()) {
-	s.Engine.Init(
-		micro.Name("abc"),
-	)
 }
