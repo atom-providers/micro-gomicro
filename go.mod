@@ -3,7 +3,7 @@ module github.com/atom-providers/micro-gomicro
 go 1.18
 
 require (
-	github.com/atom-providers/log v0.0.0-20230804123152-5fa2777f1da1
+	github.com/atom-providers/log v0.0.0-20230805054420-343ad809890e
 	github.com/go-micro/plugins/v4/logger/zap v1.2.1
 	github.com/go-micro/plugins/v4/server/grpc v1.2.0
 	github.com/rogeecn/atom v1.0.8
@@ -60,9 +60,8 @@ require (
 	github.com/urfave/cli/v2 v2.25.7 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
-	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.24.0 // indirect
+	go.uber.org/zap v1.25.0 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230728194245-b0cb94b80691 // indirect
 	golang.org/x/mod v0.12.0 // indirect

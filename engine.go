@@ -35,7 +35,7 @@ func Provide(opts ...opt.Option) error {
 
 	return container.Container.Provide(func(ctx context.Context, log *log.Logger, opts MicroOptions) (contracts.MicroService, error) {
 		logger, _ := zap.NewLogger(
-			zap.WithLogger(log.RawLogger),
+			zap.WithLogger(log.Logger),
 		)
 
 		defaultOptions := []micro.Option{
