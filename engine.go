@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/atom-providers/log"
 	gClient "github.com/go-micro/plugins/v4/client/grpc"
 	"github.com/go-micro/plugins/v4/logger/zap"
 	gServer "github.com/go-micro/plugins/v4/server/grpc"
@@ -34,12 +33,19 @@ func Provide(opts ...opt.Option) error {
 		return err
 	}
 
-	return container.Container.Provide(func(ctx context.Context, log *log.Logger, opts MicroOptions) (contracts.MicroService, error) {
+	return container.Container.Provide(func(ctx context.Context, opts MicroOptions) (contracts.MicroService, error) {
 		logger, _ := zap.NewLogger(
-			zap.WithLogger(log.Logger),
+			zap.WithLogger(opts.Log.Logger),
 		)
 
-		serverOptions := []server.Option{server.Context(ctx)}
+		generateUUID := opts.Uuid.MustGenerate()
+		serverOptions := []server.Option{
+			server.Context(ctx),
+			server.Name(atom.AppName),
+			server.Version(atom.AppVersion),
+			server.Id(generateUUID),
+			server.Registry(opts.Registry),
+		}
 		if config.Port > 0 {
 			addr := fmt.Sprintf(":%d", config.Port)
 			serverOptions = append(serverOptions, server.Address(addr))
@@ -50,6 +56,7 @@ func Provide(opts ...opt.Option) error {
 			micro.Version(atom.AppVersion),
 			micro.Context(ctx),
 			micro.Logger(logger),
+			micro.Registry(opts.Registry),
 			micro.RegisterTTL(time.Second * 30),
 			micro.RegisterInterval(time.Second * 15),
 			micro.Server(gServer.NewServer(serverOptions...)),
