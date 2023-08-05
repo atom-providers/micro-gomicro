@@ -6,7 +6,7 @@ require (
 	github.com/atom-providers/log v0.0.0-20230804123152-5fa2777f1da1
 	github.com/go-micro/plugins/v4/logger/zap v1.2.1
 	github.com/go-micro/plugins/v4/server/grpc v1.2.0
-	github.com/rogeecn/atom v1.0.6
+	github.com/rogeecn/atom v1.0.8
 	github.com/samber/lo v1.38.1
 	go-micro.dev/v4 v4.10.2
 	go.uber.org/dig v1.17.0
@@ -17,6 +17,7 @@ require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230717121422-5aa5874ade95 // indirect
 	github.com/acomagu/bufpipe v1.0.4 // indirect
+	github.com/atom-providers/config v0.0.0-20230801062829-cc62086f736a // indirect
 	github.com/bitly/go-simplejson v0.5.1 // indirect
 	github.com/brianvoe/gofakeit/v6 v6.23.0 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
@@ -31,6 +32,7 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -50,6 +52,7 @@ require (
 	github.com/skeema/knownhosts v1.2.0 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.1 // indirect
+	github.com/spf13/cobra v1.7.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.16.0 // indirect
@@ -65,8 +68,8 @@ require (
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.13.0 // indirect
 	golang.org/x/sync v0.3.0 // indirect
-	golang.org/x/sys v0.10.0 // indirect
-	golang.org/x/text v0.11.0 // indirect
+	golang.org/x/sys v0.11.0 // indirect
+	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/tools v0.11.1 // indirect
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	google.golang.org/grpc v1.55.0 // indirect

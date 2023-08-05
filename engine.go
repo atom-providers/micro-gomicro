@@ -3,10 +3,12 @@ package microGoMicro
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/atom-providers/log"
 	"github.com/go-micro/plugins/v4/logger/zap"
 	"github.com/go-micro/plugins/v4/server/grpc"
+	"github.com/rogeecn/atom"
 	"github.com/rogeecn/atom/container"
 	"github.com/rogeecn/atom/contracts"
 	"github.com/rogeecn/atom/utils/opt"
@@ -37,8 +39,12 @@ func Provide(opts ...opt.Option) error {
 		)
 
 		defaultOptions := []micro.Option{
+			micro.Name(atom.AppName),
+			micro.Version(atom.AppVersion),
 			micro.Context(ctx),
 			micro.Logger(logger),
+			micro.RegisterTTL(time.Second * 30),
+			micro.RegisterInterval(time.Second * 15),
 			micro.Server(grpc.NewServer(
 				server.Context(ctx),
 				server.Address(fmt.Sprintf(":%d", config.Port)),
