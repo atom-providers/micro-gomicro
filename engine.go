@@ -6,8 +6,9 @@ import (
 	"time"
 
 	"github.com/atom-providers/log"
+	gClient "github.com/go-micro/plugins/v4/client/grpc"
 	"github.com/go-micro/plugins/v4/logger/zap"
-	"github.com/go-micro/plugins/v4/server/grpc"
+	gServer "github.com/go-micro/plugins/v4/server/grpc"
 	"github.com/rogeecn/atom"
 	"github.com/rogeecn/atom/container"
 	"github.com/rogeecn/atom/contracts"
@@ -38,6 +39,12 @@ func Provide(opts ...opt.Option) error {
 			zap.WithLogger(log.Logger),
 		)
 
+		serverOptions := []server.Option{server.Context(ctx)}
+		if config.Port > 0 {
+			addr := fmt.Sprintf(":%d", config.Port)
+			serverOptions = append(serverOptions, server.Address(addr))
+		}
+
 		defaultOptions := []micro.Option{
 			micro.Name(atom.AppName),
 			micro.Version(atom.AppVersion),
@@ -45,10 +52,8 @@ func Provide(opts ...opt.Option) error {
 			micro.Logger(logger),
 			micro.RegisterTTL(time.Second * 30),
 			micro.RegisterInterval(time.Second * 15),
-			micro.Server(grpc.NewServer(
-				server.Context(ctx),
-				server.Address(fmt.Sprintf(":%d", config.Port)),
-			)),
+			micro.Server(gServer.NewServer(serverOptions...)),
+			micro.Client(gClient.NewClient()),
 		}
 
 		opts.Options = append(defaultOptions, opts.Options...)

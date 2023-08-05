@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/atom-providers/log v0.0.0-20230805054420-343ad809890e
+	github.com/go-micro/plugins/v4/client/grpc v1.1.0
 	github.com/go-micro/plugins/v4/logger/zap v1.2.1
 	github.com/go-micro/plugins/v4/server/grpc v1.2.0
 	github.com/rogeecn/atom v1.0.8
